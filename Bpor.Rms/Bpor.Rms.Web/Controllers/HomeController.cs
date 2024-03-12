@@ -1,18 +1,19 @@
 using System.Diagnostics;
+using Bpor.Rms.Infrastructure.Entities;
 using Bpor.Rms.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Bpor.Rms.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bpor.Rms.Web.Controllers;
 
-[Authorize]
-public class HomeController(ILogger<HomeController> logger, IIdentityProviderService idpService)
+public class HomeController(ILogger<HomeController> logger, IIdentityProviderService idpService, ParticipantDbContext dbContext)
     : Controller
 {
     public async Task<IActionResult> Index()
     {
-        var token = await idpService.GetOrAcquireTokenAsync();
+        var participants = await dbContext.Participants.ToListAsync();
         return View();
     }
 

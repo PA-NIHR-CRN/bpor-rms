@@ -10,15 +10,18 @@ public static class DependencyInjection
     {
         services.AddControllersWithViews();
 
-        services.AddOptions<IdentityProviderApiSettings>().BindConfiguration("IdentityProviderAPI")
+        services.AddOptions<IdentityProviderApiSettings>().BindConfiguration(IdentityProviderApiSettings.SectionName)
             .ValidateDataAnnotations().ValidateOnStart();
-        services.AddOptions<AuthenticationSettings>().BindConfiguration("Authentication").ValidateDataAnnotations()
+        services.AddOptions<AuthenticationSettings>().BindConfiguration(AuthenticationSettings.SectionName)
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+        services.AddOptions<DbSettings>().BindConfiguration(DbSettings.SectionName).ValidateDataAnnotations()
             .ValidateOnStart();
 
         var baseAddress = configuration.GetValue<string>("IdentityProviderApi:BaseUrl") ??
                           throw new InvalidOperationException(
                               "Failed to read required IdP API BaseUrl property from configuration.");
-        
+
         services.AddTransient<IIdentityProviderService, Wso2IdentityServerService>();
         services.AddHttpClient<IIdentityProviderService, Wso2IdentityServerService>(httpClient =>
         {
@@ -27,5 +30,4 @@ public static class DependencyInjection
 
         services.AddDistributedMemoryCache();
     }
-    
 }

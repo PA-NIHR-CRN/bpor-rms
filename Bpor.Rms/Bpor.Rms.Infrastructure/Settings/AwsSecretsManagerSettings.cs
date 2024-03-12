@@ -4,6 +4,7 @@ namespace Bpor.Rms.Infrastructure.Settings;
 
 public class AwsSecretsManagerSettings : IValidatableObject
 {
+    public const string SectionName = "AwsSecretsManager";
     public bool Enabled { get; set; }
     public string Region { get; set; } = string.Empty;
     public string SecretName { get; set; } = string.Empty;

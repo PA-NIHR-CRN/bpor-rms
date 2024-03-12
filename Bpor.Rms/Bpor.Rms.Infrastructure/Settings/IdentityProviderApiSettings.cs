@@ -4,6 +4,7 @@ namespace Bpor.Rms.Infrastructure.Settings;
 
 public class IdentityProviderApiSettings : IValidatableObject
 {
+    public const string SectionName = "IdentityProviderApi";
     [Required] public string BaseUrl { get; set; } = string.Empty;
     [Required] public string ClientId { get; set; } = string.Empty;
     [Required] public string ClientSecret { get; set; } = string.Empty;
